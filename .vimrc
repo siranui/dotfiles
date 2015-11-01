@@ -1,6 +1,6 @@
-"----------------"
-"###プラグイン###"
-"----------------"
+"---------------"
+"### Plugins ###"
+"---------------"
 
 " neobundle {{{
 " vim起動時のみruntimepathにneobundle.vimを追加
@@ -62,9 +62,9 @@ NeoBundleCheck
 " }}}
 
 
-"--------------------"
-"###プラグイン設定###"
-"--------------------"
+"------------------------------"
+"### Setting of the Plugins ###"
+"------------------------------"
 
 "" 'vim-clang' {{{
 "let g:clang_c_options = '-std=c11'
@@ -99,6 +99,7 @@ function! g:ref_source_webdict_sites.ej.filter(output)
    return join(split(a:output, "\n")[18 :], "\n")
 endfunction
 " }}}
+
 
 " easy-align {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -230,9 +231,9 @@ augroup END
 " }}}
 
 
-"--------------"
-"###表示設定###"
-"--------------"
+"---------------"
+"### Display ###"
+"---------------"
 
 syntax on "syntaxを有効にする
 set number "行番号を表示する
@@ -253,7 +254,7 @@ colorscheme hybrid "カラースキームをhybridにする
 
 
 "--------------"
-"###検索設定###"
+"### Search ###"
 "--------------"
 
 set ignorecase "大文字/小文字の区別なく検索する
@@ -263,9 +264,9 @@ set hlsearch "検索文字をハイライト
 set incsearch "インクリメンタルサーチをする
 set whichwrap=b,s,h,l,<,>,[,] "行頭行末の左右移動で行をまたぐ
 
-"------------------"
-"###キーバインド###"
-"------------------"
+"-------------------"
+"### Key Mapping ###"
+"-------------------"
 
 " jj :insert-modeを抜ける
 inoremap <silent> jj <ESC>
@@ -286,9 +287,9 @@ nnoremap <Space>rj :Ref webdict je<Space>
 "後で参考にするかも (url上でgxとタイプでブラウザで開く)
 " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 
-"------------"
-"###その他###"
-"------------"
+"-------------"
+"### Other ###"
+"-------------"
 
 set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
