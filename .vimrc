@@ -36,8 +36,6 @@ NeoBundle 'Shougo/vimproc',
 "NeoBundle 'justmao945/vim-clang'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'mfumi/ref-dicts-en'
-"NeoBundle 'tyru/vim-altercmd'
-NeoBundle 'kana/vim-altercmd'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
@@ -100,16 +98,7 @@ endfunction
 function! g:ref_source_webdict_sites.ej.filter(output)
    return join(split(a:output, "\n")[18 :], "\n")
 endfunction
-
-
-
-""入力短縮
-"call altercmd#load()
-"AlterCommand ej Ref webdict ej
-"AlterCommand je Ref webdict je
-
 " }}}
-
 
 " easy-align {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -196,6 +185,9 @@ endfunction
 
 " unite {{{
 
+" 参考URL(URLの上でgxで開く)
+" http://qiita.com/jnchito/items/5141b3b01bced9f7f48f
+
 " 入力モードで開始する
 let g:unite_enable_start_insert=1
 " バッファ一覧
@@ -206,7 +198,7 @@ noremap <C-N> :Unite -buffer-name=file file<CR>
 noremap <C-Z> :Unite file_mru<CR>
 
 " sourcesを「今開いているファイルのディレクトリ」とする
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+noremap uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 " ESCキーを2回押すと終了する
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -277,10 +269,18 @@ set whichwrap=b,s,h,l,<,>,[,] "行頭行末の左右移動で行をまたぐ
 
 " jj :insert-modeを抜ける
 inoremap <silent> jj <ESC>
-
-" fc :markerを閉じる
-nnoremap <silent> fc :foldc<CR>
-
+" fc : Close folds in {range}.
+nnoremap <silent> fc :foldclose<CR>
+" j : display lines downward.
+noremap j gj
+" k : display lines upward.
+noremap k gk
+" <ESC><ESC> : Stop the highlighting for the 'hlsearch' option.
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+" <Space>re : Open the dictionary of English to Japanese
+nnoremap <Space>re :Ref webdict ej<Space>
+" <Space>rj : Open the dictionary of Japanese to English
+nnoremap <Space>rj :Ref webdict je<Space>
 
 
 "後で参考にするかも (url上でgxとタイプでブラウザで開く)
@@ -290,8 +290,7 @@ nnoremap <silent> fc :foldc<CR>
 "###その他###"
 "------------"
 
-set mouse=a "マウスの操作を受けつける
+set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
-
 
