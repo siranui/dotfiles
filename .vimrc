@@ -237,9 +237,9 @@ augroup END
 
 syntax on "syntaxを有効にする
 set number "行番号を表示する
-set tabstop=3 "インデントを3つ分に設定
+set tabstop=4 "インデントを4つ分に設定
 set smartindent "オートインデント
-set shiftwidth=3 "オートインデントの際の幅を3つ分に設定
+set shiftwidth=4 "オートインデントの際の幅を4つ分に設定
 set expandtab "タブを押した時にスペースでインデント
 set title "編集中のファイル名を表示
 set showmatch "括弧入力時の対応する括弧を表示
@@ -250,7 +250,9 @@ set foldmethod=marker "「{{{」と「}}}」に囲われた部分を折り畳む
 set t_Co=256 "256色で表示する
 set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
+set background=dark "Vim will try to use colors that look good on a dark background.
 colorscheme hybrid "カラースキームをhybridにする
+highlight Normal ctermbg = none
 
 
 "--------------"

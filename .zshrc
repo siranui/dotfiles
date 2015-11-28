@@ -56,7 +56,7 @@ esac
 
 
 # キーバインドをVi化
-bindkey -v
+#bindkey -v
 
 
 # プロンプトの設定
