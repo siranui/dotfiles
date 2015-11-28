@@ -198,8 +198,6 @@ noremap <C-N> :Unite -buffer-name=file file<CR>
 " 最近使ったファイルの一覧
 noremap <C-Z> :Unite file_mru<CR>
 
-" sourcesを「今開いているファイルのディレクトリ」とする
-noremap uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 " ESCキーを2回押すと終了する
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
@@ -252,7 +250,7 @@ set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
 set background=dark "Vim will try to use colors that look good on a dark background.
 colorscheme hybrid "カラースキームをhybridにする
-highlight Normal ctermbg = none
+highlight Normal ctermbg = none "背景を半透明にする
 
 
 "--------------"
@@ -285,9 +283,34 @@ nnoremap <Space>re :Ref webdict ej<Space>
 " <Space>rj : Open the dictionary of Japanese to English
 nnoremap <Space>rj :Ref webdict je<Space>
 
+"nnoremap s <Nop>
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap sJ <C-w>J
+nnoremap sK <C-w>K
+nnoremap sL <C-w>L
+nnoremap sH <C-w>H
+nnoremap sn gt
+nnoremap sp gT
+nnoremap sr <C-w>r
+nnoremap s= <C-w>=
+nnoremap sw <C-w>w
+nnoremap so <C-w>_<C-w>|
+nnoremap sO <C-w>=
+nnoremap sN :<C-u>bn<CR>
+nnoremap sP :<C-u>bp<CR>
+nnoremap st :<C-u>tabnew<CR>
+nnoremap sT :<C-u>Unite tab<CR>
+nnoremap ss :<C-u>sp<CR>
+nnoremap sv :<C-u>vs<CR>
+nnoremap sq :<C-u>q<CR>
+nnoremap sQ :<C-u>bd<CR>
+nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
+nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+" 's' mappinf quoted from " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca "
 
-"後で参考にするかも (url上でgxとタイプでブラウザで開く)
-" http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca
 
 "-------------"
 "### Other ###"
