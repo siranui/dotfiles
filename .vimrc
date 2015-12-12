@@ -18,10 +18,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " 読み込むプラグインを記載
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'thinca/vim-quickrun'
+" 重要!
 NeoBundle 'Shougo/vimproc',
 " vimprocの設定 {{{
 \{
@@ -33,21 +30,53 @@ NeoBundle 'Shougo/vimproc',
 \  },
 \}
 " }}}
-"NeoBundle 'justmao945/vim-clang'
+
+" コンパイル
+NeoBundle 'thinca/vim-quickrun'
+
+" unite系
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/unite-outline'
+
+" 辞書用
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'mfumi/ref-dicts-en'
+
+" 補完系
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+
+" 成形用
 NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'bronson/vim-trailing-whitespace'
+
+" ステータスバー
+NeoBundle 'itchyny/lightline.vim'
+
+" colorscheme系
+NeoBundle 'w0ng/vim-hybrid'
+
+" c/c++用
+"NeoBundle 'justmao945/vim-clang'
+NeoBundleLazy 'vim-jp/cpp-vim', {
+            \ 'autolode' : {'filetypes' : 'cpp'}
+            \ }
+
+" markdown用
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'Shougo/vimshell.vim'
+
+" haskel用
 NeoBundle 'eagletmt/ghcmod-vim'
 NeoBundle 'kana/vim-filetype-haskell'
-NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'Shougo/neocomplete.vim'
+
+" その他
+"NeoBundle 'Shougo/vimshell.vim'
+
 
 call neobundle#end()
 
@@ -70,7 +99,6 @@ NeoBundleCheck
 "let g:clang_c_options = '-std=c11'
 "let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ --pedantic-errors'
 ""}}}
-
 
 " 辞書系 {{{
 " vim-refのバッファをqで閉じられるようにする
@@ -100,7 +128,6 @@ function! g:ref_source_webdict_sites.ej.filter(output)
 endfunction
 " }}}
 
-
 " easy-align {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -108,17 +135,14 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 
-
 " markdown {{{
 au BufRead,BufNewFile *.md set filetype=markdown
 " }}}
-
 
 " indentLine {{{
 let g:indentLine_faster = 1
 nmap <silent><leader>i :<C-u>IndentLinesToggle<CR>
 " }}}
-
 
 " lightline {{{
 let g:lightline = {
@@ -183,7 +207,6 @@ function! LightLineMode()
 endfunction
 " }}}
 
-
 " unite {{{
 
 " 参考URL(URLの上でgxで開く)
@@ -204,7 +227,6 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 
 " }}}
-
 
 " neocomplete {{{
 
@@ -227,6 +249,30 @@ augroup cpp-path
 augroup END
 
 " }}}
+
+" neosnippet {{{
+"Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+  endif
+" }}}
+
+
+
+
 
 
 "---------------"
@@ -282,6 +328,8 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 nnoremap <Space>re :Ref webdict ej<Space>
 " <Space>rj : Open the dictionary of Japanese to English
 nnoremap <Space>rj :Ref webdict je<Space>
+" Toggle spell and nospell
+nnoremap <space>s :<C-u>set spell!<CR>
 
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
@@ -309,7 +357,7 @@ nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
-" 's' mappinf quoted from " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca "
+" These 's' mapping quoted from " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca "
 
 
 "-------------"
