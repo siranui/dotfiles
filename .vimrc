@@ -48,7 +48,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 
-" 成形用
+" 形成用
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'bronson/vim-trailing-whitespace'
@@ -80,15 +80,15 @@ NeoBundle 'tyru/open-browser.vim'
 
 " haskel用
 NeoBundleLazy 'eagletmt/ghcmod-vim', {
-            \ 'autolode' : {'filetype' : 'haskel'}
+            \ 'autolode' : {'filetype' : 'hs'}
             \ }
 NeoBundleLazy 'kana/vim-filetype-haskell', {
-            \ 'autolode' : {'filetype' : 'haskel'}
+            \ 'autolode' : {'filetype' : 'hs'}
             \ }
 
 " その他
-"NeoBundle 'Shougo/vimshell.vim'
-
+NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'jiangmiao/auto-pairs'
 
 call neobundle#end()
 
@@ -292,9 +292,9 @@ autocmd FileType java set omnifunc=javacomplete#Complete
 
 syntax on "syntaxを有効にする
 set number "行番号を表示する
-set tabstop=4 "インデントを4つ分に設定
+set tabstop=3 "インデントを3つ分に設定
 set smartindent "オートインデント
-set shiftwidth=4 "オートインデントの際の幅を4つ分に設定
+set shiftwidth=3 "オートインデントの際の幅を3つ分に設定
 set expandtab "タブを押した時にスペースでインデント
 set title "編集中のファイル名を表示
 set showmatch "括弧入力時の対応する括弧を表示
@@ -343,7 +343,7 @@ nnoremap <Space>rj :Ref webdict je<Space>
 nnoremap <space>s :<C-u>set spell!<CR>
 
 " <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
-nnoremap <Space>. :<C-u>tabedit $MYVIMRC
+nnoremap <Space>. :<C-u>tabedit $MYVIMRC<CR>
 
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
@@ -358,7 +358,6 @@ nnoremap sn gt
 nnoremap sp gT
 nnoremap sr <C-w>r
 nnoremap s= <C-w>=
-nnoremap sw <C-w>w
 nnoremap so <C-w>_<C-w>|
 nnoremap sO <C-w>=
 nnoremap sN :<C-u>bn<CR>
@@ -367,6 +366,7 @@ nnoremap st :<C-u>tabnew<CR>
 nnoremap sT :<C-u>Unite tab<CR>
 nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
+nnoremap sw :<C-u>w<CR>
 nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
