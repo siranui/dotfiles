@@ -62,17 +62,29 @@ NeoBundle 'w0ng/vim-hybrid'
 " c/c++用
 "NeoBundle 'justmao945/vim-clang'
 NeoBundleLazy 'vim-jp/cpp-vim', {
-            \ 'autolode' : {'filetypes' : 'cpp'}
+            \ 'autolode' : {'filetype' : 'cpp'}
             \ }
 
+" java用
+"NeoBundleLazy 'artur-shaik/vim-javacomplete2', {
+"            \ 'autolode' : {'filetype' : 'java'}
+"            \ }
+"let g:JavaComplete_MavenRepositoryDisable = 0
+
 " markdown用
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundleLazy 'plasticboy/vim-markdown', {
+            \ 'autolode' : {'filetype' : 'md'}
+            \ }
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 
 " haskel用
-NeoBundle 'eagletmt/ghcmod-vim'
-NeoBundle 'kana/vim-filetype-haskell'
+NeoBundleLazy 'eagletmt/ghcmod-vim', {
+            \ 'autolode' : {'filetype' : 'haskel'}
+            \ }
+NeoBundleLazy 'kana/vim-filetype-haskell', {
+            \ 'autolode' : {'filetype' : 'haskel'}
+            \ }
 
 " その他
 "NeoBundle 'Shougo/vimshell.vim'
@@ -270,8 +282,7 @@ if has('conceal')
   endif
 " }}}
 
-
-
+autocmd FileType java set omnifunc=javacomplete#Complete
 
 
 
@@ -330,6 +341,9 @@ nnoremap <Space>re :Ref webdict ej<Space>
 nnoremap <Space>rj :Ref webdict je<Space>
 " Toggle spell and nospell
 nnoremap <space>s :<C-u>set spell!<CR>
+
+" <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
+nnoremap <Space>. :<C-u>tabedit $MYVIMRC
 
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
