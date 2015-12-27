@@ -66,10 +66,14 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
             \ }
 
 " java用
-"NeoBundleLazy 'artur-shaik/vim-javacomplete2', {
-"            \ 'autolode' : {'filetype' : 'java'}
-"            \ }
-"let g:JavaComplete_MavenRepositoryDisable = 0
+NeoBundleLazy 'artur-shaik/vim-javacomplete2', {
+            \ 'autolode' : {'filetype' : 'java'}
+            \ }
+let g:JavaComplete_MavenRepositoryDisable = 0
+let g:JavaComplete_UseFQN = 1
+autocmd FileType java setlocal runtimepath+=/usr/lib/jvm/java-8-oracle
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
 
 " markdown用
 NeoBundleLazy 'plasticboy/vim-markdown', {
@@ -89,6 +93,7 @@ NeoBundleLazy 'kana/vim-filetype-haskell', {
 " その他
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'tyru/caw.vim.git'
 
 call neobundle#end()
 
@@ -282,7 +287,6 @@ if has('conceal')
   endif
 " }}}
 
-autocmd FileType java set omnifunc=javacomplete#Complete
 
 
 
@@ -344,6 +348,14 @@ nnoremap <space>s :<C-u>set spell!<CR>
 
 " <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
 nnoremap <Space>. :<C-u>tabedit $MYVIMRC<CR>
+
+" caw
+nmap <Space>ci <Plug>(caw:i:toggle)
+vmap <Space>ci <Plug>(caw:i:toggle)
+nmap <Space>ca <Plug>(caw:a:toggle)
+vmap <Space>ca <Plug>(caw:a:toggle)
+nmap <Space>cw <Plug>(caw:wrap:toggle)
+vmap <Space>cw <Plug>(caw:wrap:toggle)
 
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
