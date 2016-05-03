@@ -1,121 +1,53 @@
-"---------------"
-"### Plugins ###"
-"---------------"
-
-" neobundle {{{
-" vim起動時のみruntimepathにneobundle.vimを追加
-if has('vim_starting')
-  set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-endif
-
-" neobundle.vimの初期化
-" NeoBundleを更新するための設定
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-
+" Plugins {{{
+"
+"" java用
+"NeoBundleLazy 'artur-shaik/vim-javacomplete2', {
+"            \ 'autolode' : {'filetype' : 'java'}
+"            \ }
+"let g:JavaComplete_MavenRepositoryDisable = 0
+"let g:JavaComplete_UseFQN = 1
+"autocmd FileType java setlocal runtimepath+=/usr/lib/jvm/java-8-oracle
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"
+"
+"" markdown用
+"NeoBundleLazy 'plasticboy/vim-markdown', {
+"            \ 'autolode' : {'filetype' : 'md'}
+"            \ }
+"NeoBundle 'kannokanno/previm'
+"NeoBundle 'tyru/open-browser.vim'
+"
+"" haskel用
+"NeoBundleLazy 'eagletmt/ghcmod-vim', {
+"            \ 'autolode' : {'filetype' : 'hs'}
+"            \ }
+"NeoBundleLazy 'kana/vim-filetype-haskell', {
+"            \ 'autolode' : {'filetype' : 'hs'}
+"            \ }
+"
+"" その他
+"NeoBundle 'Shougo/vimshell.vim'
+"NeoBundle 'jiangmiao/auto-pairs'
+"
+"call neobundle#end()
+"
+"" {{{
+"
+"" 読み込んだプラグインも含め、ファイルタイプの検出、ファイルタイプ別のプラグイン/インデントを有効化する
+"filetype plugin indent on
+"
+"" インストールのチェック
+"NeoBundleCheck
+"
+"" }}}
+"
+" }}}
+" Setting of the Plugins {{{
+"
+" 'vim-clang' {{{
+let g:clang_c_options = '-std=c11'
+let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ --pedantic-errors'
 "}}}
-
-" 読み込むプラグインを記載
-
-" 重要!
-NeoBundle 'Shougo/vimproc',
-" vimprocの設定 {{{
-\{
-\ 'build' : {
-\     'windows' : 'tools\\updata-dll-mingw',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\  },
-\}
-" }}}
-
-" コンパイル
-NeoBundle 'thinca/vim-quickrun'
-
-" unite系
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/unite-outline'
-
-" 辞書用
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'mfumi/ref-dicts-en'
-
-" 補完系
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-
-" 形成用
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'bronson/vim-trailing-whitespace'
-
-" ステータスバー
-NeoBundle 'itchyny/lightline.vim'
-
-" colorscheme系
-NeoBundle 'w0ng/vim-hybrid'
-
-" c/c++用
-"NeoBundle 'justmao945/vim-clang'
-NeoBundleLazy 'vim-jp/cpp-vim', {
-            \ 'autolode' : {'filetype' : 'cpp'}
-            \ }
-
-" java用
-NeoBundleLazy 'artur-shaik/vim-javacomplete2', {
-            \ 'autolode' : {'filetype' : 'java'}
-            \ }
-let g:JavaComplete_MavenRepositoryDisable = 0
-let g:JavaComplete_UseFQN = 1
-autocmd FileType java setlocal runtimepath+=/usr/lib/jvm/java-8-oracle
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
-
-" markdown用
-NeoBundleLazy 'plasticboy/vim-markdown', {
-            \ 'autolode' : {'filetype' : 'md'}
-            \ }
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
-
-" haskel用
-NeoBundleLazy 'eagletmt/ghcmod-vim', {
-            \ 'autolode' : {'filetype' : 'hs'}
-            \ }
-NeoBundleLazy 'kana/vim-filetype-haskell', {
-            \ 'autolode' : {'filetype' : 'hs'}
-            \ }
-
-" その他
-NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'jiangmiao/auto-pairs'
-NeoBundle 'tyru/caw.vim.git'
-
-call neobundle#end()
-
-" {{{
-
-" 読み込んだプラグインも含め、ファイルタイプの検出、ファイルタイプ別のプラグイン/インデントを有効化する
-filetype plugin indent on
-
-" インストールのチェック
-NeoBundleCheck
-
-" }}}
-
-
-"------------------------------"
-"### Setting of the Plugins ###"
-"------------------------------"
-
-"" 'vim-clang' {{{
-"let g:clang_c_options = '-std=c11'
-"let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ --pedantic-errors'
-""}}}
 
 " 辞書系 {{{
 " vim-refのバッファをqで閉じられるようにする
@@ -144,14 +76,14 @@ function! g:ref_source_webdict_sites.ej.filter(output)
    return join(split(a:output, "\n")[18 :], "\n")
 endfunction
 " }}}
-
+"
 " easy-align {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 " }}}
-
+"
 " markdown {{{
 au BufRead,BufNewFile *.md set filetype=markdown
 " }}}
@@ -160,7 +92,7 @@ au BufRead,BufNewFile *.md set filetype=markdown
 let g:indentLine_faster = 1
 nmap <silent><leader>i :<C-u>IndentLinesToggle<CR>
 " }}}
-
+"
 " lightline {{{
 let g:lightline = {
         \ 'colorscheme': 'jellybeans',
@@ -223,7 +155,7 @@ function! LightLineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 " }}}
-
+"
 " unite {{{
 
 " 参考URL(URLの上でgxで開く)
@@ -241,10 +173,10 @@ noremap <C-Z> :Unite file_mru<CR>
 " ESCキーを2回押すと終了する
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-
-
-" }}}
-
+"
+"
+"" }}}
+"
 " neocomplete {{{
 
 let g:neocomplete#enable_at_startup = 1
@@ -266,7 +198,7 @@ augroup cpp-path
 augroup END
 
 " }}}
-
+"
 " neosnippet {{{
 "Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -286,7 +218,57 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
   endif
 " }}}
+"
+""}}}
 
+if &compatible
+   set nocompatible
+endif
+
+" reset augroup
+augroup myAutoCmd
+   autocmd!
+augroup END
+
+" dein settings {{{
+" quote: http://qiita.com/delphinus35/items/00ff2c0ba972c6e41542
+
+"プラグインが実際にインストールされているディレクトリ
+let s:dein_dir = expand('~/.vim/dein')
+"dein.vim本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+   if !isdirectory(s:dein_repo_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+   endif
+   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+"設定開始
+if dein#load_state(s:dein_dir)
+   call dein#begin(s:dein_dir)
+
+   "プラグインを収めたTOMLファイル
+   let s:toml       = '~/.vim/rc/dein.toml'
+   let s:lazy_toml  = '~/.vim/rc/dein_lazy.toml'
+
+   "TOMLを読み込み、キャッシュしておく
+   call dein#load_toml(s:toml,      {'lazy': 0})
+   call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+   "設定終了
+   call dein#end()
+   call dein#save_state()
+endif
+
+if dein#check_install()
+   call dein#install()
+endif
+
+filetype plugin indent on
+" }}}
 
 
 
@@ -310,8 +292,8 @@ set t_Co=256 "256色で表示する
 set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
 set background=dark "Vim will try to use colors that look good on a dark background.
-colorscheme hybrid "カラースキームをhybridにする
-highlight Normal ctermbg = none "背景を半透明にする
+" colorscheme hybrid "カラースキームをhybridにする
+" highlight Normal ctermbg = none "背景を半透明にする
 
 
 "--------------"
@@ -331,18 +313,16 @@ set whichwrap=b,s,h,l,<,>,[,] "行頭行末の左右移動で行をまたぐ
 
 " jj :insert-modeを抜ける
 inoremap <silent> jj <ESC>
-" fc : Close folds in {range}.
-nnoremap <silent> fc :foldclose<CR>
 " j : display lines downward.
 noremap j gj
 " k : display lines upward.
 noremap k gk
 " <ESC><ESC> : Stop the highlighting for the 'hlsearch' option.
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
-" <Space>re : Open the dictionary of English to Japanese
-nnoremap <Space>re :Ref webdict ej<Space>
-" <Space>rj : Open the dictionary of Japanese to English
-nnoremap <Space>rj :Ref webdict je<Space>
+"" <Space>re : Open the dictionary of English to Japanese
+"nnoremap <Space>re :Ref webdict ej<Space>
+"" <Space>rj : Open the dictionary of Japanese to English
+"nnoremap <Space>rj :Ref webdict je<Space>
 " Toggle spell and nospell
 nnoremap <space>s :<C-u>set spell!<CR>
 

@@ -1,0 +1,71 @@
+# dein.vim {{{
+[[plugins]]
+repo = 'Shougo/dein.vim'
+# }}}
+
+# vimproc {{{
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+   if dein#util#_is_windows()
+      let cmd = 'tools\\update-dll-mingw'
+   elseif dein#util#_is_cygwin()
+      let cmd = 'make -f make_cygwin.mak'
+   elseif executable('gmake')
+      let cmd = 'gmake'
+   else
+      let cmd = 'make'
+   endif
+      let g:dein#plugin.build = cmd
+'''
+# }}}
+
+# カラースキーマ {{{
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+hook_add = '''
+   set background=dark
+   " カラースキーマの適用はsource後じゃないと出来ないので遅延セット
+   autocmd myAutoCmd VimEnter * colorscheme hybrid
+   autocmd myAutoCmd VimEnter * highlight Normal ctermbg = none
+'''
+# }}}
+
+# コンパイル {{{
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+# }}}
+
+# ステータスバー {{{
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+# }}}
+
+# 辞書系
+#[[plugins]]
+#repo = 'thinca/vim-ref'
+#
+#[[plugins]]
+#repo = 'mfumi/ref-dicts-en'
+
+# 形成用 {{{
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+
+[[plugins]]
+repo = 'bronson/vim-trailing-whitespace'
+# }}}
+
+# ファイルタイプ
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]]
+repo = 'tyru/caw.vim.git'
