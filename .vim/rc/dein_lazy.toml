@@ -12,7 +12,7 @@ repo = 'Shougo/neosnippet-snippets'
 on_i = 1
 # }}}
 
-# :Unite で読み込む {{{
+# Unite に依存 {{{
 [[plugins]]
 repo   = 'Shougo/unite.vim'
 
@@ -23,6 +23,10 @@ on_source = ['unite.vim']
 [[plugins]]
 repo = 'Shougo/unite-outline'
 on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = ['unite.vim']
 # }}}
 
 # tomlファイルだったら読み込む {{{
@@ -40,3 +44,4 @@ on_ft = 'c'
 repo = 'vim-jp/cpp-vim'
 on_ft = 'cpp'
 # }}}
+

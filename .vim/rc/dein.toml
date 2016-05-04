@@ -69,3 +69,9 @@ depends = ['context_filetype.vim']
 
 [[plugins]]
 repo = 'tyru/caw.vim.git'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'

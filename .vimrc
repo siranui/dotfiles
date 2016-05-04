@@ -44,10 +44,6 @@
 " }}}
 " Setting of the Plugins {{{
 "
-" 'vim-clang' {{{
-let g:clang_c_options = '-std=c11'
-let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ --pedantic-errors'
-"}}}
 
 " 辞書系 {{{
 " vim-refのバッファをqで閉じられるようにする
@@ -77,147 +73,12 @@ function! g:ref_source_webdict_sites.ej.filter(output)
 endfunction
 " }}}
 "
-" easy-align {{{
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-" }}}
 "
-" markdown {{{
-au BufRead,BufNewFile *.md set filetype=markdown
-" }}}
 
-" indentLine {{{
-let g:indentLine_faster = 1
-nmap <silent><leader>i :<C-u>IndentLinesToggle<CR>
-" }}}
-"
-" lightline {{{
-let g:lightline = {
-        \ 'colorscheme': 'jellybeans',
-        \ 'mode_map': {'c': 'NORMAL'},
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],[ 'fugitive', 'filename' ] ]
-        \ },
-        \ 'component_function': {
-        \   'modified': 'LightLineModified',
-        \   'readonly': 'LightLineReadonly',
-        \   'fugitive': 'LightLineFugitive',
-        \   'filename': 'LightLineFilename',
-        \   'fileformat': 'LightLineFileformat',
-        \   'filetype': 'LightLineFiletype',
-        \   'fileencoding': 'LightLineFileencoding',
-        \   'mode': 'LightLineMode'
-        \ }
-        \ }
-
-function! LightLineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightLineReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
-endfunction
-
-function! LightLineFilename()
-  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-      return fugitive#head()
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-" }}}
-"
-" unite {{{
-
-" 参考URL(URLの上でgxで開く)
-" http://qiita.com/jnchito/items/5141b3b01bced9f7f48f
-
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
-" バッファ一覧
-noremap <C-P> :Unite buffer<CR>
-" ファイル一覧
-noremap <C-N> :Unite -buffer-name=file file<CR>
-" 最近使ったファイルの一覧
-noremap <C-Z> :Unite file_mru<CR>
-
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 "
 "
-"" }}}
 "
-" neocomplete {{{
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_ignore_case = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#sources#syntax#in_keyword_length = 3
-if !exists('g:neocomplete#keyword_patterns')
-   let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns._ = '\h\w*'
-
-highlight Pmenu ctermbg=248 guibg=#606060
-highlight PmenuSel ctermbg=159 guifg=#dddd00 guibg=#1f82cd
-highlight PmenuSbar ctermbg=0 guibg=#d6d6d6
-
-augroup cpp-path
-   autocmd!
-   autocmd FileType cpp setlocal path=.,/usr/include/c++/
-augroup END
-
-" }}}
 "
-" neosnippet {{{
-"Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-  endif
-" }}}
 "
 ""}}}
 
@@ -270,6 +131,8 @@ endif
 filetype plugin indent on
 " }}}
 
+set runtimepath^=~/.vim/rc
+runtime! plugins/*.vim
 
 
 "---------------"
@@ -306,6 +169,7 @@ set wrapscan "検索時に最後まで行ったら最初に戻る
 set hlsearch "検索文字をハイライト
 set incsearch "インクリメンタルサーチをする
 set whichwrap=b,s,h,l,<,>,[,] "行頭行末の左右移動で行をまたぐ
+set wildmenu "補完候補を表示する
 
 "-------------------"
 "### Key Mapping ###"
@@ -374,3 +238,5 @@ set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
 
+" markdown
+au BufRead,BufNewFile *.md set filetype=markdown
