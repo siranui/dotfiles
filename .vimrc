@@ -45,33 +45,33 @@
 " Setting of the Plugins {{{
 "
 
-" 辞書系 {{{
-" vim-refのバッファをqで閉じられるようにする
-autocmd FileType ref-* nnoremap <buffer> <silent> q :<C-u>close<CR>
-
-"辞書定義
-let g:ref_source_webdict_sites = {
-\    'je': {
-\     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
-\    },
-\    'ej': {
-\     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
-\    },
-\}
-
-"デフォルトサイト
-let g:ref_source_webdict_sites.default = 'ej'
-
-"出力に対するフィルタ
-"最初の数行を削除
-function! g:ref_source_webdict_sites.je.filter(output)
-   return join(split(a:output,"\n")[18 :], "\n")
-endfunction
-
-function! g:ref_source_webdict_sites.ej.filter(output)
-   return join(split(a:output, "\n")[18 :], "\n")
-endfunction
-" }}}
+"" 辞書系 {{{
+"" vim-refのバッファをqで閉じられるようにする
+"autocmd FileType ref-* nnoremap <buffer> <silent> q :<C-u>close<CR>
+"
+""辞書定義
+"let g:ref_source_webdict_sites = {
+"\    'je': {
+"\     'url': 'http://dictionary.infoseek.ne.jp/jeword/%s',
+"\    },
+"\    'ej': {
+"\     'url': 'http://dictionary.infoseek.ne.jp/ejword/%s',
+"\    },
+"\}
+"
+""デフォルトサイト
+"let g:ref_source_webdict_sites.default = 'ej'
+"
+""出力に対するフィルタ
+""最初の数行を削除
+"function! g:ref_source_webdict_sites.je.filter(output)
+"   return join(split(a:output,"\n")[18 :], "\n")
+"endfunction
+"
+"function! g:ref_source_webdict_sites.ej.filter(output)
+"   return join(split(a:output, "\n")[18 :], "\n")
+"endfunction
+"" }}}
 "
 "
 
@@ -193,13 +193,28 @@ nnoremap <space>s :<C-u>set spell!<CR>
 " <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
 nnoremap <Space>. :<C-u>tabedit $MYVIMRC<CR>
 
-" caw
-nmap <Space>ci <Plug>(caw:i:toggle)
-vmap <Space>ci <Plug>(caw:i:toggle)
-nmap <Space>ca <Plug>(caw:a:toggle)
-vmap <Space>ca <Plug>(caw:a:toggle)
-nmap <Space>cw <Plug>(caw:wrap:toggle)
-vmap <Space>cw <Plug>(caw:wrap:toggle)
+
+
+" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
+" <TAB> : jump to pair
+nnoremap <TAB> %
+vnoremap <TAB> %
+" Bring to the center after the search.
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
+
+" http://qiita.com/itmammoth/items/312246b4b7688875d023
+" 行を移動
+nnoremap <C-Up> "zdd<Up>"zP
+nnoremap <C-Down> "zdd"zp
+" 複数行を移動
+vnoremap <C-Up> "zx<Up>"zP`[V`]
+vnoremap <C-Down> "zx"zp`[V`]
 
 "nnoremap s <Nop>
 nnoremap sj <C-w>j
