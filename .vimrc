@@ -107,13 +107,14 @@ if &runtimepath !~# '/dein.vim'
    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
+"プラグインを収めたTOMLファイル
+let s:toml       = '~/.vim/rc/dein.toml'
+let s:lazy_toml  = '~/.vim/rc/dein_lazy.toml'
+
 "設定開始
 if dein#load_state(s:dein_dir)
-   call dein#begin(s:dein_dir)
+   call dein#begin(s:dein_dir, [s:toml, s:lazy_toml])
 
-   "プラグインを収めたTOMLファイル
-   let s:toml       = '~/.vim/rc/dein.toml'
-   let s:lazy_toml  = '~/.vim/rc/dein_lazy.toml'
 
    "TOMLを読み込み、キャッシュしておく
    call dein#load_toml(s:toml,      {'lazy': 0})
@@ -255,3 +256,6 @@ set backspace=start,eol,indent "backspaceを通常のエディタの様にする
 
 " markdown
 au BufRead,BufNewFile *.md set filetype=markdown
+
+" rust
+au BufRead,BufNewFile *.rs set filetype=rust
