@@ -64,6 +64,13 @@ repo = 'bronson/vim-trailing-whitespace'
 repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
+repo =  'racer-rust/vim-racer'
+
+[[plugins]]
+repo =  'rust-lang/rust.vim'
+
+# その他 {{{
+[[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 
@@ -74,4 +81,9 @@ repo = 'tyru/caw.vim.git'
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
+repo = 'rbtnn/vim-next-reading-vimrc'
+
+[[plugins]]
 repo = 'tpope/vim-fugitive'
+
+# }}}
