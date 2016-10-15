@@ -75,6 +75,15 @@ RPROMPT="%F{yellow}[%d]%f"
 SPROMPT="%F{yellow}%r is correct? [(n)o, (y)es, (a)bort, (e)dit]:%f"
 
 
+# ターミナルのタイトル
+case "${TERM}" in
+   kterm*|xterm)
+      precmd() {
+         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+      }
+      ;;
+esac
+
 
 # 補完入力の有効化
 autoload -U compinit
@@ -98,15 +107,42 @@ linux*)
     ;;
 esac
 
-alias la="ls -a"
-alias lf="ls -F"
-alias ll="ls -l"
+alias la='ls -a --color=auto'
+alias lf="ls -F --color=auto"
+alias l='ls -ltr --color=auto'
+alias ll='ls -l --color=auto'
 
 alias grep='grep --color'
 alias less='less -X -R'
 
+alias so='source'
+alias vz='vim ~/.zshrc'
+alias vr='vim ~/.vimrc'
+alias h='fc -lt '%F %T' 1' # historyに日付を表示
+alias cp='cp -i'
+# alias rm='rm -i'
+alias mkdir='mkdir -p'
+# alias ..='c ../'
+# alias back='pushd'
+# alias diff='diff -U1'
+alias wcd='cd /mnt/c/Users/S142129'
+
+alias pandoc='pandoc +RTS -V0 -RTS'
+
 # エイリアスを拡張する(D)
 setopt ALIASES
+
+# X Window System用
+export DISPLAY=:0
+
+# PATHの追加
+export PATH=$PATH:~/.multirust/toolchains/stable/cargo/bin/
+export RUST_SRC_PATH=/usr/local/src/rustc-beta/src
+
+
+
+
+
 
 # 以降、定義されたすべての変数は自動的にexportされる
 unsetopt ALL_EXPORT
