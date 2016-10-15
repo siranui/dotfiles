@@ -5,7 +5,7 @@
 
 for f in .??*
 do
-    [[ "$f" == ".git" ]] && continue
+    [ "$f" = ".git" ] && continue
 
     echo "$f"
 done
