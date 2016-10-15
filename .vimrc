@@ -100,7 +100,9 @@ set t_Co=256 "256色で表示する
 set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
 set background=dark "Vim will try to use colors that look good on a dark background.
-" colorscheme hybrid "カラースキームをhybridにする
+if file_readable(expand("~/.vim/plugged/vim-hybrid/colors/hybrid.vim"))
+   colorscheme hybrid "カラースキームをhybridにする
+endif
 " highlight Normal ctermbg = none "背景を半透明にする
 
 
