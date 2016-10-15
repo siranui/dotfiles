@@ -3,4 +3,5 @@ ln -sf ~/dotfiles/.vimrc ~/.vimrc
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
 
-vim -c "try | PlugInstall | finally | q! | q! | endtry"
+#vim -c "try | PlugInstall | finally | q! | q! | endtry"
+vim -u ~/.vimrc -i NONE -c "try | PlugInstall | finally | q! | q! | endtry" -e -s -V1
