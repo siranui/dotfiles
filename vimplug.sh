@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -e ~/.vim/plugged/vim-plug ]; then
    echo 'install vim-plug...'
