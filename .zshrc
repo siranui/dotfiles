@@ -14,6 +14,21 @@ case ${UID} in
     ;;
 esac
 
+source ~/.zplug/init.zsh
+
+# (1) プラグインを定義する
+#zplug 'zsh-users/zsh-autosuggestions'
+zplug "zsh-users/zsh-syntax-highlighting", nice:10
+
+# (2) インストールする
+if ! zplug check --verbose; then
+   printf 'Install? [y/N]: '
+   if read -q; then
+      echo; zplug install
+   fi
+fi
+
+zplug load --verbose
 
 # キーバインドをVi化
 #bindkey -v
