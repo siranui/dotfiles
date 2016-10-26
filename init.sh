@@ -2,7 +2,7 @@
 
 set -e
 DOT_DIR="$HOME/dotfiles"
-DOT_TARBALL="https;//github.com/siranui/dotfiles/tarball/master"
+DOT_TARBALL="https://github.com/siranui/dotfiles/tarball/master"
 REMOTE_URL="https://github.com/siranui/dotfiles.git"
 
 
@@ -71,7 +71,7 @@ initialize() {
    # ... Initialize処理
    TPM_DIR="$HOME/.tmux/plugins/tpm"
    ZPLUG_DIR="$HOME/.zplug"
-   VIMPLUG_DIR="$HOME/.vim/plugged/vim-plug "
+   VIMPLUG_DIR="$HOME/.vim/plugged/vim-plug"
 
 
    if has "git"; then
@@ -97,8 +97,7 @@ initialize() {
    if [ ! -e ${VIMPLUG_DIR} ]; then
       echo 'install vim-plug...'
       mkdir -p ~/.vim/plugged/vim-plug
-      has git && git clone https://github.com/junegunn/vim-plug.git \
-         "${VIMPLUG_DIR}"/autoload
+      has git && git clone https://github.com/junegunn/vim-plug.git "${VIMPLUG_DIR}"/autoload
       # Install plugins
       vim -c "try | PlugInstall | q! | finally | q! | endtry"
    else
