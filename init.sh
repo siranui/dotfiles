@@ -81,6 +81,13 @@ initialize() {
       has apt && apt install git -y
    fi
 
+   if has "zsh"; then
+      :
+   else
+      echo "Install zsh"
+      has apt && apt install zsh -y
+   fi
+
    # tpm
    if [ ! -d ${TPM_DIR} ]; then
       echo "Download tpm..."
@@ -90,7 +97,7 @@ initialize() {
    # zplug
    if [ ! -d ${ZPLUG_DIR} ]; then
       echo "Download zplug..."
-      has curl && curl -sL zplug.sh/installer | zsh
+      has curl && has zsh && curl -sL zplug.sh/installer | zsh
    fi
 
    # vim-plug
