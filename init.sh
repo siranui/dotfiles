@@ -88,6 +88,13 @@ initialize() {
       has apt && apt install zsh -y
    fi
 
+   if has "make"; then
+      :
+   else
+      echo "Install make"
+      has apt && apt install make -y
+   fi
+
    # tpm
    if [ ! -d ${TPM_DIR} ]; then
       echo "Download tpm..."
