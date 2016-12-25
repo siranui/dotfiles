@@ -21,15 +21,15 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/vimfiler.vim'
-Plug 'osyo-manga/unite-quickfix'
+" Plug 'osyo-manga/unite-quickfix'
 
-Plug 'Shougo/neocomplete.vim', {'on': []}
-Plug 'Shougo/neosnippet', {'on': []}
-Plug 'Shougo/neosnippet-snippets', {'on': []}
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 
 Plug 'cohama/lexima.vim',{'on': []}
 
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 
 Plug 'thinca/vim-quickrun', {'on': 'QuickRun'}
 Plug 'osyo-manga/shabadou.vim'
@@ -38,6 +38,8 @@ Plug 'w0ng/vim-hybrid'
 Plug 'altercation/vim-colors-solarized'
 
 Plug 'itchyny/lightline.vim'
+
+Plug 'haya14busa/incsearch.vim'
 
 Plug 'junegunn/vim-easy-align'
 
@@ -50,6 +52,8 @@ Plug 'osyo-manga/vim-precious'
 
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
+
+Plug 'fatih/vim-go', {'for': 'go'}
 
 Plug 'tyru/caw.vim'
 
@@ -68,7 +72,6 @@ Plug 'kana/vim-operator-user'
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
 Plug 'justmao945/vim-clang', {'for': 'c'}
 Plug 'vim-jp/cpp-vim', {'for': 'cpp'}
-
 
 " Plug 'mattn/benchvimrc-vim'
 
@@ -91,12 +94,12 @@ set showmatch "括弧入力時の対応する括弧を表示
 set splitbelow "新しいウィンドウを下に開く
 set splitright "新しいウィンドウを右に開く
 set foldmethod=marker "「{{{」と「}}}」に囲われた部分を折り畳む
-augroup foldmethod_exchange_syntax
-   autocmd!
-   autocmd FileType c,cpp,go,java,js,rs :set foldmethod=syntax
-   autocmd FileType c,cpp,go,java,js,rs :set foldlevel=1
-   autocmd FileType c,cpp,go,java,js,rs :set foldnestmax=2
-augroup END
+" augroup foldmethod_exchange_syntax
+"    autocmd!
+"    autocmd FileType c,cpp,go,java,js,rs :set foldmethod=syntax
+"    autocmd FileType c,cpp,go,java,js,rs :set foldlevel=10
+"    autocmd FileType c,cpp,go,java,js,rs :set foldnestmax=10
+" augroup END
 set t_Co=256 "256色で表示する
 set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
@@ -131,15 +134,11 @@ noremap j gj
 noremap k gk
 " <ESC><ESC> : Stop the highlighting for the 'hlsearch' option.
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
-"" <Space>re : Open the dictionary of English to Japanese
-"nnoremap <Space>re :Ref webdict ej<Space>
-"" <Space>rj : Open the dictionary of Japanese to English
-"nnoremap <Space>rj :Ref webdict je<Space>
 " Toggle spell and nospell
-nnoremap <space>s :<C-u>set spell!<CR>
+nnoremap <Leader>s :<C-u>set spell!<CR>
 
 " <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
-nnoremap <Space>. :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <Leader>. :<C-u>tabedit $MYVIMRC<CR>
 
 
 
@@ -201,7 +200,18 @@ au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.rs set filetype=rust hidden
 let g:racer_cmd = '/home/yuya/.multirust/toolchains/stable/cargo/bin/racer'
 let $RUST_SRC_PATH="/usr/local/src/rustc-beta/src"
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
 
+" " golang
+" filetype off
+" filetype plugin indent off
+" set runtimepath+=$GOROOT/misc/vim
+" filetype plugin indent on
+" syntax on
+" autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+" set completeopt=menu,preview
 
 "-------------"
 "### Other ###"
@@ -209,6 +219,7 @@ let $RUST_SRC_PATH="/usr/local/src/rustc-beta/src"
 set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
+set breakindent
 
 "--------------"
 "### Pulgin ###"
@@ -224,7 +235,7 @@ let g:unite_source_history_yank_enable=1
 let g:unite_split_rule='botright'
 
 " prefix keyの設定
-nmap <Space>u [unite]
+nmap <Leader>u [unite]
 
 
 "バッファを表示
@@ -475,28 +486,25 @@ augroup END
 nnoremap <Leader>r :<C-u>QuickRun<CR>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
-let g:quickrun_config = {
-         \ "_": {
-         \ "hook/close_unite_quickfix/enable_hook_loaded" : 1,
-         \ "hook/unite_quickfix/enable_failure" : 1,
-         \ "hook/close_quickfix/enable_exit" : 1,
-         \ "hook/close_buffer/enable_failure" : 1,
-         \ "hook/close_buffer/enable_empty_data" : 1,
-         \ "outputter" : "multi:buffer:quickfix",
-         \ "outputter/buffer/split" : ":botright 8sp",
-         \ "runner" : "vimproc",
-         \ "runner/vimproc/updatetime" : 40,
-         \ },
-         \ "cpp/g++": {
-         \     "cmdopt": "-std=c++11",
-         \     "hook/time/enable": 1
-         \ },
-         \}
+let g:quickrun_config = get(g:, 'quickrun_config', {})
+let g:quickrun_config._ = {
+         \ "runner":                          "vimproc",
+         \ "runner/vimproc/updatetime":       40,
+         \ "outputter":                       "error",
+         \ "outputter/error/success":         "buffer",
+         \ "outputter/error/error":           "quickfix",
+         \ "outputter/buffer/split":          ":rightbelow 8sp",
+         \ "outputter/buffer/close_on_empty": 1,
+         \ }
 let g:quickrun_config.markdown = {
          \ 'type': 'markdown/pandoc',
          \ 'cmdopt': '-s',
          \ 'outputter': 'browser'
          \ }
+let g:quickrun_config.cpp = {
+   \  'command': 'g++',
+   \  'cmdopt': '-std=c++11'
+   \ }
 
 "}}}
 
@@ -518,6 +526,12 @@ let g:clang_format#style_options = {
          \ "Standard" : "C++11",
          \ "BreakBeforeBraces" : "Stroustrup",
          \ }
+"}}}
+
+" incsearch.vim {{{
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 "}}}
 
 "}}}
