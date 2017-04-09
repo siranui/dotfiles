@@ -69,8 +69,8 @@ link_files() {
 
 initialize() {
    # ... Initialize処理
-   TPM_DIR="$HOME/.tmux/plugins/tpm"
-   ZPLUG_DIR="$HOME/.zplug"
+#   TPM_DIR="$HOME/.tmux/plugins/tpm"
+#   ZPLUG_DIR="$HOME/.zplug"
    VIMPLUG_DIR="$HOME/.vim/plugged/vim-plug"
 
 
@@ -95,17 +95,17 @@ initialize() {
       has apt && apt install make -y
    fi
 
-   # tpm
-   if [ ! -d ${TPM_DIR} ]; then
-      echo "Download tpm..."
-      has git && git clone https://github.com/tmux-plugins/tpm "${TPM_DIR}"
-   fi
-
-   # zplug
-   if [ ! -d ${ZPLUG_DIR} ]; then
-      echo "Download zplug..."
-      has curl && has zsh && curl -sL zplug.sh/installer | zsh
-   fi
+#   # tpm
+#   if [ ! -d ${TPM_DIR} ]; then
+#      echo "Download tpm..."
+#      has git && git clone https://github.com/tmux-plugins/tpm "${TPM_DIR}"
+#   fi
+#
+#   # zplug
+#   if [ ! -d ${ZPLUG_DIR} ]; then
+#      echo "Download zplug..."
+#      has curl && has zsh && curl -sL zplug.sh/installer | zsh
+#   fi
 
    # vim-plug
    if [ ! -e ${VIMPLUG_DIR} ]; then
