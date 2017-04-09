@@ -14,21 +14,21 @@ case ${UID} in
     ;;
 esac
 
-source ~/.zplug/init.zsh
-
-# (1) プラグインを定義する
-#zplug 'zsh-users/zsh-autosuggestions'
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
-
-# (2) インストールする
-if ! zplug check --verbose; then
-   printf 'Install? [y/N]: '
-   if read -q; then
-      echo; zplug install
-   fi
-fi
-
-zplug load --verbose
+# source ~/.zplug/init.zsh
+#
+# # (1) プラグインを定義する
+# #zplug 'zsh-users/zsh-autosuggestions'
+# zplug "zsh-users/zsh-syntax-highlighting", nice:10
+#
+# # (2) インストールする
+# if ! zplug check --verbose; then
+#    printf 'Install? [y/N]: '
+#    if read -q; then
+#       echo; zplug install
+#    fi
+# fi
+#
+# zplug load --verbose
 
 # キーバインドをVi化
 #bindkey -v
@@ -488,7 +488,7 @@ unsetopt SH_FILE_EXPANSION
 # 変数やコマンド置換結果得られたグロッビングにおいて、またシェルがパターンを受け付ける他の場所のいくつかで、 '('、'|'、')' および '<' の特殊な意味を無効化する
 unsetopt SH_GLOB
 
-# 変数やコマンド置換結果得られたグロッビングにおいて、またシェルがパターンを受け付ける他の場所のいくつかで、 '('、'|'、')' および '<' の特殊な意味を無効化する 
+# 変数やコマンド置換結果得られたグロッビングにおいて、またシェルがパターンを受け付ける他の場所のいくつかで、 '('、'|'、')' および '<' の特殊な意味を無効化する
 # setopt SHIN_STDIN
 
 # リダイレクションの差異に NULLCMD や READNULLCMD の値を使うのではなく、 ':' コマンドを使う
