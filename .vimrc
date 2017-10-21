@@ -17,11 +17,11 @@ Plug 'junegunn/vim-plug',
 
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 
-Plug 'Shougo/unite.vim'
+Plug 'Shougo/denite.nvim'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
-Plug 'Shougo/vimfiler.vim'
-" Plug 'osyo-manga/unite-quickfix'
+
+Plug 'scrooloose/nerdtree'
 
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet'
@@ -29,11 +29,10 @@ Plug 'Shougo/neosnippet-snippets'
 
 Plug 'cohama/lexima.vim',{'on': []}
 
-" Plug 'tpope/vim-surround'
-
 Plug 'thinca/vim-quickrun', {'on': 'QuickRun'}
 Plug 'osyo-manga/shabadou.vim'
 
+" colorschemes
 Plug 'w0ng/vim-hybrid'
 Plug 'altercation/vim-colors-solarized'
 
@@ -50,28 +49,30 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'Shougo/context_filetype.vim'
 Plug 'osyo-manga/vim-precious'
 
-Plug 'racer-rust/vim-racer', {'for': 'rust'}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-
-Plug 'fatih/vim-go', {'for': 'go'}
-
 Plug 'tyru/caw.vim'
 
 Plug 'vim-jp/vimdoc-ja'
 
 Plug 'tpope/vim-fugitive'
 
+Plug 'Chiel92/vim-autoformat'
+
+" for some languages
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 let g:vim_markdown_folding_disabled=1
 Plug 'kannokanno/previm'
 Plug 'tyru/open-browser.vim'
-
-Plug 'cespare/vim-toml', {'for': 'toml'}
-
+" Plug 'racer-rust/vim-racer', {'for': 'rust'}
+" Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'kana/vim-operator-user'
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
 Plug 'justmao945/vim-clang', {'for': 'c'}
 Plug 'vim-jp/cpp-vim', {'for': 'cpp'}
+Plug 'lervag/vimtex', {'for': 'tex'}
+Plug 'derekwyatt/vim-scala'
+au BufNewFile,BufRead *.scala setf scala
+Plug 'cespare/vim-toml', {'for': 'toml'}
 
 " Plug 'mattn/benchvimrc-vim'
 
@@ -81,7 +82,7 @@ call plug#end()
 "---------------"
 "### Display ###"
 "---------------"
-
+"{{{
 syntax on "syntaxを有効にする
 set number "行番号を表示する
 set tabstop=3 "インデントを3つ分に設定
@@ -94,26 +95,31 @@ set showmatch "括弧入力時の対応する括弧を表示
 set splitbelow "新しいウィンドウを下に開く
 set splitright "新しいウィンドウを右に開く
 set foldmethod=marker "「{{{」と「}}}」に囲われた部分を折り畳む
-" augroup foldmethod_exchange_syntax
-"    autocmd!
-"    autocmd FileType c,cpp,go,java,js,rs :set foldmethod=syntax
-"    autocmd FileType c,cpp,go,java,js,rs :set foldlevel=10
-"    autocmd FileType c,cpp,go,java,js,rs :set foldnestmax=10
-" augroup END
+augroup foldmethod_exchange_syntax
+   autocmd!
+   autocmd FileType c,cpp,go,java,js,rs,scala :set foldmethod=syntax
+   autocmd FileType c,cpp,go,java,js,rs,scala :set foldlevel=10
+   autocmd FileType c,cpp,go,java,js,rs,scala :set foldnestmax=10
+augroup END
 set t_Co=256 "256色で表示する
 set laststatus=2 "ステータスラインを2行で表示
 set scrolloff=4 "上下４行の視界を確保
 set background=dark "Vim will try to use colors that look good on a dark background.
-if file_readable(expand("~/.vim/plugged/vim-hybrid/colors/hybrid.vim"))
-   colorscheme hybrid "カラースキームをhybridにする
-endif
+
+" if file_readable(expand("~/.vim/plugged/vim-hybrid/colors/hybrid.vim"))
+"    colorscheme hybrid "カラースキームをhybridにする
+" endif
+colorscheme default
+
 " highlight Normal ctermbg = none "背景を半透明にする
+
+"}}}
 
 
 "--------------"
 "### Search ###"
 "--------------"
-
+"{{{
 set ignorecase "大文字/小文字の区別なく検索する
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan "検索時に最後まで行ったら最初に戻る
@@ -121,11 +127,13 @@ set hlsearch "検索文字をハイライト
 set incsearch "イクメンタルサーチをする
 set whichwrap=b,s,h,l,<,>,[,] "行頭行末の左右移動で行をまたぐ
 set wildmenu "補完候補を表示する
+"}}}
+
 
 "-------------------"
 "### Key Mapping ###"
 "-------------------"
-
+"{{{
 " jj :insert-modeを抜ける
 inoremap <silent> jj <ESC>
 " j : display lines downward.
@@ -187,21 +195,26 @@ nnoremap sw :<C-u>w<CR>
 nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
 " These 's' mapping quoted from " http://qiita.com/tekkoc/items/98adcadfa4bdc8b5a6ca "
-
+"}}}
 
 
 "----------------"
 "### FileType ###"
 "----------------"
+"{{{
 " markdown
 au BufRead,BufNewFile *.md set filetype=markdown
 
-" rust
-au BufRead,BufNewFile *.rs set filetype=rust hidden
-let g:racer_cmd = '/home/yuya/.multirust/toolchains/stable/cargo/bin/racer'
-let $RUST_SRC_PATH="/usr/local/src/rustc-beta/src"
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
+" tex
+" let g:tex_conceal="adgmb"
+autocmd BufNewFile *.tex 0r $HOME/.vim/template/tex.txt
+
+" " rust
+" au BufRead,BufNewFile *.rs set filetype=rust hidden
+" let g:racer_cmd = '/home/yuya/.multirust/toolchains/stable/cargo/bin/racer'
+" let $RUST_SRC_PATH="/usr/local/src/rustc-beta/src"
+" let g:rustfmt_autosave = 1
+" let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
 
 " " golang
 " filetype off
@@ -212,58 +225,92 @@ let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
 " autocmd FileType go autocmd BufWritePre <buffer> Fmt
 " exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 " set completeopt=menu,preview
+"}}}
+
 
 "-------------"
 "### Other ###"
 "-------------"
+"{{{
 set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
 set breakindent
+"}}}
+
 
 "--------------"
 "### Pulgin ###"
 "--------------"
 " Setting for Pulgins {{{
 
-" unite {{{
-" 入力モードで開始する
-let g:unite_enable_start_insert=1
-" ヒストリー/ヤンク機能を有効化
-let g:unite_source_history_yank_enable=1
-" 画面分割時に下か右に開く
-let g:unite_split_rule='botright'
+" " unite {{{
+" " 入力モードで開始する
+" let g:unite_enable_start_insert=1
+" " ヒストリー/ヤンク機能を有効化
+" let g:unite_source_history_yank_enable=1
+" " 画面分割時に下か右に開く
+" let g:unite_split_rule='botright'
+"
+" " prefix keyの設定
+" nmap <Leader>u [unite]
+"
+"
+" "バッファを表示
+" nnoremap <silent> [unite]bf :<C-u>Unite<Space>buffer<CR>
+" "ブックマークの表示
+" nnoremap <silent> [unite]bm :<C-u>Unite<Space>bookmark<CR>
+" "カレントディレクトリを表示
+" nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" "最近開いたディレクトリを表示
+" nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
+" "バッファと最近開いたファイル一覧を表示
+" nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
+" "ヒストリ/ヤンクを表示
+" nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
+" "マッピングを表示
+" nnoremap <silent> [unite]m :<C-u>Unite<Space>mapping<CR>
+" "outline
+" nnoremap <silent> [unite]o :<C-u>Unite<Space>-vertical -winwidth=25 -no-quit outline<CR>
+" "レジストリを表示
+" nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
+" "タブを表示
+" nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
+" "file_rec:!
+" nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
+"
+" " ESCキーを2回押すと終了する
+" au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+" au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+" "}}}
 
-" prefix keyの設定
-nmap <Leader>u [unite]
+" denite {{{
 
+" grep関連
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opts', [])
+call denite#custom#var('grep', 'default_opts', ['--follow', '--nocolor', '--nogroup', '-g', ''])
 
-"バッファを表示
-nnoremap <silent> [unite]bf :<C-u>Unite<Space>buffer<CR>
-"ブックマークの表示
-nnoremap <silent> [unite]bm :<C-u>Unite<Space>bookmark<CR>
-"カレントディレクトリを表示
-nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-"最近開いたディレクトリを表示
-nnoremap <silent> [unite]d :<C-u>Unite<Space>directory_mru<CR>
-"バッファと最近開いたファイル一覧を表示
-nnoremap <silent> [unite]f :<C-u>Unite<Space>buffer file_mru<CR>
-"ヒストリ/ヤンクを表示
-nnoremap <silent> [unite]h :<C-u>Unite<Space>history/yank<CR>
-"マッピングを表示
-nnoremap <silent> [unite]m :<C-u>Unite<Space>mapping<CR>
-"outline
-nnoremap <silent> [unite]o :<C-u>Unite<Space>-vertical -winwidth=25 -no-quit outline<CR>
-"レジストリを表示
-nnoremap <silent> [unite]r :<C-u>Unite<Space>register<CR>
-"タブを表示
-nnoremap <silent> [unite]t :<C-u>Unite<Space>tab<CR>
-"file_rec:!
-nnoremap <silent> [unite]<CR> :<C-u>Unite<Space>file_rec:!<CR>
+" mapping
+call denite#custom#map(
+         \ 'insert',
+         \ '<C-n>',
+         \ '<denite:move_to_next_line>',
+         \ 'noremap'
+         \)
+call denite#custom#map(
+         \ 'insert',
+         \ '<C-p>',
+         \ '<denite:move_to_previous_line>',
+         \ 'noremap'
+         \)
 
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+nmap <silent> <Leader>ub :<C-u>Denite buffer<CR>
+nmap <silent> <Leader>ul :<C-u>Denite line<CR>
+nmap <silent> <Leader>ug :<C-u>Denite line<CR>
+
 "}}}
 
 " neocomplete {{{
@@ -310,7 +357,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 
 " For conceal markers.
 if has('conceal')
-  set conceallevel=2 concealcursor=niv
+  set conceallevel=2 concealcursor=c
 endif
 "}}}
 
@@ -393,30 +440,35 @@ nmap ga <Plug>(EasyAlign)
 
 " indentLine {{{
 let g:indentLine_faster = 1
+let g:indentLine_setConceal = 0
 nmap <silent><leader>i :<C-u>IndentLinesToggle<CR>
 "}}}
 
 " vimfiler {{{
 " Quote : http://www.karakaram.com/vimfiler
 
-"vimデフォルトのエクスプローラをvimfilerで置き換える
-let g:vimfiler_as_default_explorer = 1
-"セーフモードを無効にした状態で起動する
-let g:vimfiler_safe_mode_by_default = 0
-"現在開いているバッファのディレクトリを開く
-nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
-"現在開いているバッファをIDE風に開く
-nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=25 -no-quit<CR>
+" "vimデフォルトのエクスプローラをvimfilerで置き換える
+" let g:vimfiler_as_default_explorer = 1
+" "セーフモードを無効にした状態で起動する
+" let g:vimfiler_safe_mode_by_default = 0
+" "現在開いているバッファのディレクトリを開く
+" nnoremap <silent> <Leader>fe :<C-u>VimFilerBufferDir -quit<CR>
+" "現在開いているバッファをIDE風に開く
+" nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=25 -no-quit<CR>
+"
+" "デフォルトのキーマッピングを変更
+" augroup vimrc
+"    autocmd FileType vimfiler call s:vimfiler_my_settings()
+" augroup END
+" function! s:vimfiler_my_settings()
+"    nmap <buffer> q <Plug>(vimfiler_exit)
+"    nmap <buffer> Q <Plug>(vimfiler_hide)
+" endfunction
+" "}}}
 
-"デフォルトのキーマッピングを変更
-augroup vimrc
-   autocmd FileType vimfiler call s:vimfiler_my_settings()
-augroup END
-function! s:vimfiler_my_settings()
-   nmap <buffer> q <Plug>(vimfiler_exit)
-   nmap <buffer> Q <Plug>(vimfiler_hide)
-endfunction
-"}}}
+" NERDTree {{{
+nnoremap <silent> <Leader>fi :<C-u>NERDTree<CR>
+" }}}
 
 " vim-clang {{{
 " disable auto completion for vim-clang
@@ -462,7 +514,7 @@ let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ --pedantic-errors'
 "}}}
 
 " vim-trailing-whitespace{{{
-let g:extra_whitespace_ignored_filetypes = ['unite', 'md', 'vimfiler']
+let g:extra_whitespace_ignored_filetypes = ["unite", "md", "vimfiler"]
 "}}}
 
 " vim-markdown {{{
@@ -533,6 +585,21 @@ map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 "}}}
+
+" vim-autoformat{{{
+"" with scalafmt
+let g:autoformat_verbosemode=1 " for output error
+
+let g:formatdef_scalafmt = "'scalafmt  --stdin'"
+" let g:formatdef_scalafmt = "'scalafmt --config /home/yuya/.config/scalafmt/.scalafmt.conf --stdin'"
+let g:formatters_scala = ['scalafmt']
+
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+
+noremap <F5> :Autoformat<CR>
+" }}}
 
 "}}}
 
