@@ -14,25 +14,7 @@ case ${UID} in
     ;;
 esac
 
-# source ~/.zplug/init.zsh
-#
-# # (1) プラグインを定義する
-# #zplug 'zsh-users/zsh-autosuggestions'
-# zplug "zsh-users/zsh-syntax-highlighting", nice:10
-#
-# # (2) インストールする
-# if ! zplug check --verbose; then
-#    printf 'Install? [y/N]: '
-#    if read -q; then
-#       echo; zplug install
-#    fi
-# fi
-#
-# zplug load --verbose
-
-# キーバインドをVi化
-#bindkey -v
-
+# for wsl-terminal
 [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
     [[ -n "$ATTACH_ONLY" ]] && {
         tmux a 2>/dev/null || {
@@ -49,16 +31,37 @@ esac
 autoload -U colors
 colors
 
-local p_mark="%B%(?, %F{green}, %F{red})%#%f%b"
+# local p_mark="%B%(?, %F{green}, %F{red})%#%f%b" # '%'が出力
+local p_mark="%B%(?, %F{green}, %F{red})%f%b"
 
 if [ -n "$SSH_CONNECTION" ]; then
-    PROMPT="%F{green]}[%F{magenta}%n%F{green}@%F{cyan}%m%F{green}:%c]$p_mark"
+    PROMPT="%F{green}[%F{magenta}%n%F{green}@%F{cyan}%m%F{green}:%c]$p_mark"
 else
-    PROMPT="%F{green}[%c]$p_mark"
+    PROMPT="%F{cyan}[%c]$p_mark"
 fi
 PROMPT2="%F{magenta}%_->%f"
 RPROMPT="%F{yellow}[%d]%f"
 SPROMPT="%F{yellow}%r is correct? [(n)o, (y)es, (a)bort, (e)dit]:%f"
+
+RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%}"
+
+
+# gitの情報をRPROMPTに追加する。
+#
+# branch名の隣に
+# commitされていないファイルが有れば ! が、
+# addされていないファイルが有れば + が表示される。
+#
+# ex)
+#     [branch|!+][path/to/dir]
+autoload -Uz vcs_info # vcs = 'V'ersion 'C'ontrol 'S'ystem (?)
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "[ %b|%c%u%f ]"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () { vcs_info }
+RPROMPT='${vcs_info_msg_0_}'$RPROMPT
 
 
 # ターミナルのタイトル
@@ -113,7 +116,7 @@ alias mkdir='mkdir -p'
 # alias diff='diff -U1'
 alias wcd='cd /mnt/c/Users/S142129'
 
-alias pandoc='pandoc +RTS -V0 -RTS'
+# alias pandoc='pandoc +RTS -V0 -RTS'
 
 # エイリアスを拡張する(D)
 setopt ALIASES
@@ -121,9 +124,12 @@ setopt ALIASES
 # X Window System用
 export DISPLAY=:0
 
+# less の 文字コードを指定
+export LESSCHARSET=utf-8
+
 # PATHの追加
-export PATH=$PATH:~/.multirust/toolchains/stable/cargo/bin/
-export RUST_SRC_PATH=/usr/local/src/rustc-beta/src
+# export PATH=$PATH:~/.multirust/toolchains/stable/cargo/bin/
+# export RUST_SRC_PATH=/usr/local/src/rustc-beta/src
 
 
 
