@@ -236,6 +236,7 @@ set mouse=a "The mouse can be enabled for all modes
 set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
 set breakindent
+set encoding=utf-8
 "}}}
 
 
