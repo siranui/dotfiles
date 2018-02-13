@@ -26,6 +26,14 @@ Plug 'scrooloose/nerdtree'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
+" if has('nvim')
+"    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"    Plug 'Shougo/deoplete.nvim'
+"    Plug 'roxma/nvim-yarp'
+"    Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+
 
 Plug 'cohama/lexima.vim',{'on': []}
 
@@ -145,7 +153,7 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " Toggle spell and nospell
 nnoremap <Leader>s :<C-u>set spell!<CR>
 
-" <Space>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
+" <Leader>. : open my vimrc <- http://kannokanno.hatenablog.com/entry/20121217/1355694191
 nnoremap <Leader>. :<C-u>tabedit $MYVIMRC<CR>
 
 
@@ -237,6 +245,10 @@ set clipboard=unnamed,autoselect
 set backspace=start,eol,indent "backspaceを通常のエディタの様にする
 set breakindent
 set encoding=utf-8
+augroup quickFixCmd
+   autocmd!
+   autocmd QuickFixCmdPost *grep* cwindow
+augroup END
 "}}}
 
 

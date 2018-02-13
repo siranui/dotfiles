@@ -7,7 +7,10 @@ SAVEHIST=1000000
 
 
 # LANG設定 rootの場合はCに設定
-export LANG=ja_JP.UTF-8
+# export LANG=ja_JP.UTF-8
+# export LC_ALL=ja_JP.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 case ${UID} in
 0)
     LANG=C
@@ -118,6 +121,13 @@ alias wcd='cd /mnt/c/Users/S142129'
 
 # alias pandoc='pandoc +RTS -V0 -RTS'
 
+# gitのルートディレクトリへ移動する
+function git-root() {
+  if git rev-parse --is-inside-work-tree > /dev/null 2&>1; then
+    cd `pwd`/`git rev-parse --show-cdup`
+  fi
+}
+
 # エイリアスを拡張する(D)
 setopt ALIASES
 
@@ -130,8 +140,26 @@ export LESSCHARSET=utf-8
 # PATHの追加
 # export PATH=$PATH:~/.multirust/toolchains/stable/cargo/bin/
 # export RUST_SRC_PATH=/usr/local/src/rustc-beta/src
+export PATH=$HOME/anaconda3/bin:$PATH
+
+# XDG Base Directory
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+
+# TeX Live
+export MANPATH=/usr/local/texlive/2017/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2017/texmf-dist/doc/info:$INFOPATH
+export PATH=/usr/local/texlive/2017/bin/x86_64-linux:$PATH
 
 
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# anyframe
+FPATH=$HOME/.zsh/anyframe:$FPATH
+autoload -Uz anyframe-init
+anyframe-init
 
 
 
@@ -549,3 +577,4 @@ unsetopt XTRACE
 
 # zsh line editor を利用する
 setopt ZLE
+
