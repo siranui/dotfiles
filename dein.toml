@@ -1,0 +1,377 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo  = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+" {{{
+
+" grep関連
+if executable('rg')
+  call denite#custom#var('file_rec', 'command', ['rg', '--files', '--glob', '!.git'])
+  call denite#custom#var('grep', 'command', ['rg', 'threads', '1'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrap', '--no-heading'])
+else
+  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+endif
+
+
+" mapping
+call denite#custom#map(
+         \ 'insert',
+         \ '<C-n>',
+         \ '<denite:move_to_next_line>',
+         \ 'noremap'
+         \)
+call denite#custom#map(
+         \ 'insert',
+         \ '<C-p>',
+         \ '<denite:move_to_previous_line>',
+         \ 'noremap'
+         \)
+nmap <silent> <Leader>ub :<C-u>Denite buffer<CR>
+nmap <silent> <Leader>uf :<C-u>Denite file_rec -highlight-mode-insert=Search<CR>
+nmap <silent> <Leader>um :<C-u>Denite file_mru -highlight-mode-insert=Search<CR>
+nmap <silent> <Leader>ul :<C-u>Denite line<CR>
+nmap <silent> <Leader>ug :<C-u>Denite line<CR>
+
+" 見た目
+call denite#custom#option('default', {
+  \ 'auto_accel': v:true,
+  \ 'prompt': '>',
+  \ 'source_names': 'short',
+  \ })
+
+" menu
+let s:menus = {}
+let s:menus.vim = {
+    \ 'description': 'Vim',
+    \ }
+let s:menus.vim.file_candidates = [
+    \ ['    > Edit configuation file (init.vim)', '~/.config/nvim/init.vim'],
+    \ ['    > Edit configuation file (dein.toml)', '~/.config/nvim/dein.toml']
+    \ ]
+call denite#custom#var('menu', 'menus', s:menus)
+
+" filter
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/',
+      \   'target/', 'anaconda3/']
+      \)
+
+call denite#custom#action('file', 'buffer',
+      \ {context -> denite#do_action(context, 'open', context['targets'])})
+
+"}}}
+'''
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo     = 'Shougo/deoplete.nvim'
+on_i     = 1
+hook_add = '''
+    let g:deoplete#enable_at_startup = 1
+    " Tab補完の設定
+    inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+      \ neosnippet#expandable_or_jumpable() ?
+      \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+'''
+
+[[plugins]]
+repo        = 'Shougo/neosnippet.vim'
+on_i        = 1
+on_ft       = ['snippet']
+depends     = ['neosnippet-snippets']
+hook_source = '''
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+# [[plugins]]
+# repo = 'Shougo/deol.nvim'
+
+[[plugins]]
+repo     = 'w0rp/ale'
+hook_add = '''
+" lightline's format
+let g:ale_statusline_format = ['Err %d', 'Warn %d', '']
+" msg format
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" check only file saved.
+let g:ale_list_on_save = 1
+let g:ale_list_on_text_changed = 0
+'''
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+hook_add = '''
+let g:quickrun_config = {
+\   'tex': {
+\     'command': 'latexmk',
+\     'exec': ['%c -gg -pdfdvi %s']
+\   },
+\ }
+'''
+
+
+[[plugins]]
+repo     = 'itchyny/lightline.vim'
+hook_add = '''
+" {{{
+let g:lightline = {
+    \ 'colorscheme': 'jellybeans',
+    \ 'mode_map': {'c': 'NORMAL'},
+    \ 'active': {
+    \   'left': [
+    \     [ 'mode', 'paste' ],
+    \     [ 'fugitive', 'filename', 'ale' ],
+    \   ]
+    \ },
+    \ 'component_function': {
+    \   'modified':     'LightLineModified',
+    \   'readonly':     'LightLineReadonly',
+    \   'fugitive':     'LightLineFugitive',
+    \   'filename':     'LightLineFilename',
+    \   'fileformat':   'LightLineFileformat',
+    \   'filetype':     'LightLineFiletype',
+    \   'fileencoding': 'LightLineFileencoding',
+    \   'mode':         'LightLineMode',
+    \   'ale':          'ALEGetStatusLine'
+    \ }
+  \ }
+
+ function! LightLineModified()
+   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+ endfunction
+
+ function! LightLineReadonly()
+   return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+ endfunction
+
+ function! LightLineFilename()
+   return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+         \  &ft == 'unite' ? unite#get_status_string() :
+         \  &ft == 'vimshell' ? vimshell#get_status_string() :
+         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+ endfunction
+
+ function! LightLineFugitive()
+   try
+     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+       return fugitive#head()
+     endif
+   catch
+   endtry
+   return ''
+ endfunction
+
+ function! LightLineFileformat()
+   return winwidth(0) > 70 ? &fileformat : ''
+ endfunction
+
+ function! LightLineFiletype()
+   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+ endfunction
+
+ function! LightLineFileencoding()
+   return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+ endfunction
+
+ function! LightLineMode()
+   return winwidth(0) > 60 ? lightline#mode() : ''
+ endfunction
+" }}}
+'''
+
+[[plugins]]
+repo  = 'vim-jp/vimdoc-ja'
+on_ft = 'help'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+"  {{{
+nnoremap <silent> <Leader>fi :<C-u>NERDTree<CR>
+" }}}
+'''
+
+[[plugins]]
+repo     = 'haya14busa/incsearch.vim'
+hook_add = '''
+    map / <Plug>(incsearch-forward)
+    map ? <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+'''
+
+[[plugins]]
+repo     = 'haya14busa/vim-edgemotion'
+hook_add = '''
+    map <M-j> <Plug>(edgemotion-j)
+    map <M-k> <Plug>(edgemotion-k)
+'''
+
+[[plugins]]
+repo     = 'junegunn/vim-easy-align'
+hook_add = '''
+" {{{
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" }}}
+'''
+
+[[plugins]]
+repo     = 'Yggdroot/indentLine'
+hook_add = '''
+" {{{
+let g:indentLine_faster = 1
+let g:indentLine_setConceal = 0
+nmap <silent><leader>i :<C-u>IndentLinesToggle<CR>
+"}}}
+'''
+
+[[plugins]]
+repo     = 'bronson/vim-trailing-whitespace'
+hook_add = '''
+" vim-trailing-whitespace{{{
+let g:extra_whitespace_ignored_filetypes = ["unite", "denite", "md"]
+" }}}
+'''
+
+# [[plugins]]
+# repo = 'tpope/vim-fugitive'
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo    = 'osyo-manga/vim-precious'
+depends = ['context_filetype.vim']
+
+[[plugins]]
+repo = 'cohama/lexima.vim'
+
+[[plugins]]
+repo  = 'derekwyatt/vim-scala'
+on_ft = 'scala'
+hook_add = '''
+au BufNewFile,BufRead *.scala setf scala
+let g:scala_use_builtin_tagbar_defs = 1
+let g:scala_use_default_keymappings = 1
+let g:scala_scaladoc_indent = 1
+'''
+
+[[plugins]]
+repo  = 'lervag/vimtex'
+on_ft = 'tex'
+hook_post_source = '''
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+'''
+
+# for some languages
+[[plugins]]
+repo      = 'plasticboy/vim-markdown'
+on_ft     = ['markdown', 'md']
+hook_add  = '''
+" {{{
+let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_folding_style_pythonic = 1
+}}}
+'''
+
+[[plugins]]
+repo     = 'kannokanno/previm'
+hook_add = '''
+" {{{
+let g:previm_open_cmd = ''
+augroup PrevimSettings
+   autocmd!
+   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+augroup END
+" }}}
+'''
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+[[plugins]]
+repo  = 'fatih/vim-go'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+# [[plugins]]
+# repo  = 'justmao945/vim-clang'
+# on_ft = 'c'
+#
+# [[plugins]]
+# repo  = 'vim-jp/cpp-vim'
+# on_ft = 'cpp'
+#
+# [[plugins]]
+# repo = 'racer-rust/vim-racer'
+# on_ft = 'rust'
+#
+# [[plugins]]
+# repo = 'rust-lang/rust.vim'
+# on_ft = 'rust'
+
+
+
+
+
+# カラースキーマ
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+# hook_add = '''
+#   set background=dark
+#   au MyAutoCmd VimEnter * nested colorscheme hybrid
+# '''
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+# hook_add = '''
+#   set background=light
+#   au MyAutoCmd VimEnter * nested colorscheme solarized
+# '''
+
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
+hook_add = '''
+  set background=dark
+  au MyAutoCmd VimEnter * nested colorscheme iceberg
+'''
