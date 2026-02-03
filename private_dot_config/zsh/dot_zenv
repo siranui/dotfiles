@@ -1,0 +1,70 @@
+# 環境変数の設定
+
+# Languages
+export LANG="ja_JP.UTF-8"
+
+# History
+export HISTFILE="$XDG_DATA_HOME/zsh/history"
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+# Default Editor
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# zplug
+export ZPLUG_HOME="$XDG_CACHE_HOME/zplug"
+
+# # NPM
+# export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/config"
+# export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+# export NPM_CONFIG_PROGRESS=false
+
+# nodebrew
+export NODEBREW_DIR="$HOME/.nodebrew"
+
+# Android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export GRADLE_HOME="/Applications/Android Studio.app/Contents/gradle/gradle-3.2"
+
+# Babel
+export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel/babel.json"
+export NODE_REPL_HISTORY="$XDG_CACHE_HOME/node/repl_history"
+
+# Docker
+export DOCKER_CONFIG="$HOME/.docker"
+
+# Postgres
+export PSQL_HISTORY="$XDG_CACHE_HOME/psql/history"
+
+# MySQL
+export  MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql/history"
+
+# Golang
+export GOPATH="$XDG_CACHE_HOME/go"
+
+# for NVIM
+export NVIM_PYTHON_LOG_FILE="/tmp/log"
+export NVIM_PYTHON_LOG_LEVEL="DEBUG"
+
+# for TMUX
+# export TMUX_PLUGIN_MANAGER_PATH="~/.local/share/tmux/plugins"
+# set -g @plugin 'tmux-plugins/tmp'
+# run "${TMUX_PLUGIN_MANAGER_PATH}/tpm/tpm"
+
+# PATHs
+path=(
+  /usr/local/{bin,sbin}
+  $ANDROID_HOME/tools
+  $ANDROID_HOME/platform-tools
+  $XDG_DATA_HOME/bin
+  $XDG_CACHE_HOME/go/bin
+  $HOME/go/bin
+  $HOME/miniconda3/bin
+  $NODEBREW_DIR/current/bin
+  $DOCKER_CONFIG/bin
+  $path
+)
+
+fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+typeset -gU cdpath fpath mailpath path

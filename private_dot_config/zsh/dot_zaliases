@@ -1,0 +1,25 @@
+# aliases
+alias diff="colordiff"
+alias ll="ls -sla"
+# alias llt="ls -slat"
+# alias vim="/usr/local/bin/nvim"
+alias dc="docker-compose"
+alias nvim_stable="/usr/local/bin/nvim"
+# alias nvim="/usr/local/bin/nvim-nightly"
+
+# Eza
+alias ls="eza --icons=always"
+
+# zoxide
+alias cd="z"
+
+# Cd
+alias ".."="cd .."
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+
+# Other
+alias xx="exit"
+
+# tmux
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"

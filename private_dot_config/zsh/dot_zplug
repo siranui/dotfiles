@@ -1,0 +1,58 @@
+# zplug
+
+# Check if zplug is installed
+if [[ ! -d "$ZPLUG_HOME" ]]; then
+  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+  source "$ZPLUG_HOME/init.zsh" && zplug update
+fi
+
+if [[ -s "$ZPLUG_HOME" ]]; then
+
+  source "$ZPLUG_HOME/init.zsh"
+
+  cache_dir=$ZPLUG_HOME/cache
+  flag=false
+
+  if [ -d $cache_dir ]; then
+    plugin_date=$(date -r $ZDOTDIR/.zplug +%s)
+    cache_date=$(date -r $cache_dir/interface +%s)
+    if [ ! -d $cache_dir -o $plugin_date -gt $cache_date ]; then
+      flag=true
+    fi
+  else
+    flag=true
+  fi
+
+  if $flag; then
+    echo "Loading zplug"
+    zplug "zplug/zplug"
+
+    # theme -> pure
+    zplug "mafredri/zsh-async", from:github
+    zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+
+    zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
+
+    zplug 'zsh-users/zsh-completions', use:'src/_*', lazy:true
+    zplug "zsh-users/zsh-syntax-highlighting", defer:2
+    zplug "b4b4r07/zsh-vimode-visual", defer:3
+    zplug "ascii-soup/zsh-url-highlighter"
+
+    zplug "voronkovich/gitignore.plugin.zsh"
+
+    zplug "jhawthorn/fzy", as:command, hook-build:'make'
+    zplug "b4b4r07/git-br", as:command, use:'git-br'
+
+    zplug "mollifier/cd-gitroot"
+
+    zplug "mollifier/anyframe"
+    
+    # for python. 
+    zplug "Skylor-Tang/auto-venv", use:auto-venv.zsh, from:github, at:main
+
+    # Install plugins if there are plugins that have not been installed
+    # zplug check || zplug install
+
+    zplug load
+  fi
+fi

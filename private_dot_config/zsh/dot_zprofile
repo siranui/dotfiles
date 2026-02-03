@@ -1,0 +1,14 @@
+# !/bin/zsh
+#
+# .zshprofile
+#
+# ログインシェルに必要な設定だけを記述する。
+# zshenvの次に読み込まれる設定ファイル。
+# zshログイン時の1回だけ読み込まれる。
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/Library/Android/sdk/platform-tools/bin:$PATH"
+
+
+# Added by OrbStack: command-line tools and integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
