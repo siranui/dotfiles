@@ -2,3 +2,9 @@
   type = "git-repo"
   url = "https://github.com/NvChad/starter.git"
   refreshPeriod = "168h" # 一週間ごとに更新をチェック
+
+[".gemini/antigravity/skills"]
+  type = "git-repo"
+  url = "https://github.com/siranui/agent-skills.git"
+  refreshPeriod = "168h" # 一週間ごとに更新をチェック
+
