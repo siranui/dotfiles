@@ -1,6 +1,5 @@
 # aliases
 alias diff="colordiff"
-alias ll="ls -sla"
 # alias llt="ls -slat"
 # alias vim="/usr/local/bin/nvim"
 alias dc="docker-compose"
@@ -8,7 +7,14 @@ alias nvim_stable="/usr/local/bin/nvim"
 # alias nvim="/usr/local/bin/nvim-nightly"
 
 # Eza
-alias ls="eza --icons=always"
+alias ls="eza --icons --git --no-user"
+#alias ls="eza --icons --grid --group-directories-first"
+alias ll="eza -l --icons --git --no-user"
+alias la="eza -la --icons --git --no-user"
+alias tree="eza --tree --icons"
+
+# Bat
+alias cat="bat"
 
 # zoxide
 alias cd="z"

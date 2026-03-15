@@ -20,6 +20,7 @@ source $ZDOTDIR/.zoptions
 # source $ZDOTDIR/.zprompt
 source $ZDOTDIR/.zaliases
 source $ZDOTDIR/.zplug
+source $ZDOTDIR/.zshenv
 
 if [ -e $ZDOTDIR/.zlocal ]; then
   source $ZDOTDIR/.zlocal
