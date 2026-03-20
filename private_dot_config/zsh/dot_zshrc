@@ -19,7 +19,11 @@ source $ZDOTDIR/.zcomp
 source $ZDOTDIR/.zoptions
 # source $ZDOTDIR/.zprompt
 source $ZDOTDIR/.zaliases
-source $ZDOTDIR/.zplug
+#source $ZDOTDIR/.zplug
+## sheldon
+if command -v sheldon >/dev/null 2>&1; then
+  eval "$(sheldon source)"
+fi
 source $ZDOTDIR/.zshenv
 
 if [ -e $ZDOTDIR/.zlocal ]; then
