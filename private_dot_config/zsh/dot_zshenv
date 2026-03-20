@@ -1,8 +1,25 @@
-# uv
-export PATH="$HOME/.local/share/../bin:$PATH"
+# /etc/zshenv に、管理者権限で以下を設定
+#
+# ```
+# XDG_CONFIG_HOMEが未定義ならデフォルトを想定して ZDOTDIR を設定
+# export ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh
+# ```
+#
+# 管理者権限が無く設定不可の場合は、`$ZDOTDIR`だけを設定する`~/.zshenv`を作成する必要がある
+#
 
-# antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+# 重複を許さない設定（PATHと同様の扱いにする）
+typeset -U XDG_DATA_DIRS XDG_CONFIG_DIRS
 
-# LM Studio
-export PATH="$HOME/.lmstudio/bin:$PATH"
+# XDG 基本ディレクトリ設定
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+# XDG 検索パス設定
+export XDG_DATA_DIRS="/usr/local/share:/usr/share:${XDG_DATA_DIRS:-}"
+export XDG_CONFIG_DIRS="/etc/xdg:${XDG_CONFIG_DIRS:-}"
+
+# load local .zshenv
+source $ZDOTDIR/.zenv

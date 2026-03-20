@@ -56,6 +56,15 @@ export NVIM_PYTHON_LOG_LEVEL="DEBUG"
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 
+# uv
+export PATH="$HOME/.local/share/../bin:$PATH"
+
+# antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+# LM Studio
+export PATH="$HOME/.lmstudio/bin:$PATH"
+
 # PATHs
 path=(
   /usr/local/{bin,sbin}
