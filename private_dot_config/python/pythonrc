@@ -1,0 +1,21 @@
+import os
+import atexit
+import readline
+from pathlib import Path
+
+def setup_history():
+    # XDG_STATE_HOME またはデフォルトの場所を取得
+    state_home = os.environ.get('XDG_STATE_HOME', str(Path.home() / '.local' / 'state'))
+    history = Path(state_home) / 'python_history'
+
+    # ディレクトリ作成
+    history.parent.mkdir(parents=True, exist_ok=True)
+
+    # ヒストリ読み込み
+    if history.exists():
+        readline.read_history_file(str(history))
+
+    # 終了時に書き込み
+    atexit.register(readline.write_history_file, str(history))
+
+setup_history()

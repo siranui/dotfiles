@@ -20,12 +20,21 @@ export VISUAL='nvim'
 # export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 # export NPM_CONFIG_PROGRESS=false
 
-# nodebrew
-export NODEBREW_DIR="$HOME/.nodebrew"
+# nodebrew (mise 移行のためコメントアウト)
+# export NODEBREW_DIR="$HOME/.nodebrew"
 
 # Android
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_USER_HOME="$XDG_DATA_HOME/android"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
 export GRADLE_HOME="/Applications/Android Studio.app/Contents/gradle/gradle-3.2"
+
+# AWS CLI
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
+
+# Python History
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 
 # Babel
 export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel/babel.json"
@@ -62,8 +71,12 @@ export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 # LM Studio
 export PATH="$HOME/.lmstudio/bin:$PATH"
 
+# Hermes Agent — ensure ~/.local/bin is on PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 # PATHs
 path=(
+  $HOME/.local/bin
   /usr/local/{bin,sbin}
   $ANDROID_HOME/tools
   $ANDROID_HOME/platform-tools
@@ -71,12 +84,15 @@ path=(
   $XDG_CACHE_HOME/go/bin
   $HOME/go/bin
   $HOME/miniconda3/bin
-  $NODEBREW_DIR/current/bin
   $DOCKER_CONFIG/bin
   $CARGO_HOME/bin
   $RUSTUP_HOME/bin
   $path
 )
+
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+
+eval "$(mise activate zsh)"
 
 fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 typeset -gU cdpath fpath mailpath path
